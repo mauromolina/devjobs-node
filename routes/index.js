@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const homeController = require('../controllers/home');
 
 module.exports = () => {
-    router.get('/', (req, res) => {
-        res.send('Desde mi router!');
-    });
+    router.get('/', homeController.showJobs);
 
     return router;
 }

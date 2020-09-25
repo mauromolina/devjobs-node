@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+    <title> devJobs - {{pageName}}</title>
+</head>
+<body>
+    <div class="nombre-sitio contenedor">
+        <h1>
+            <a href="/">
+                devJobs
+            </a>
+        </h1>
+        {{#if bar}}
+            <div class="buscador">
+                <form action="#">
+                    <input type="text" name="" id="" class="buscar">
+                    <input type="submit" value="Buscar">
+                </form>
+            </div>
+        {{/if}}
+    </div>
+
+    <header class="site-header contenedor separador">
+        <h2>{{pageName}}</h2>
+        {{#if tagLine}}
+            <p class="tagline">{{tagLine}}</p>
+        {{/if}}
+        {{#if btn}}
+            <a href="/vacants/new" class="btn btn-azul">Crear nueva vacante</a>
+        {{/if}}
+    </header>
+
+    <div class="contenido-principal contenedor">
+
+        {{{body}}}
+
+    </div>
+    
+</body>
+</html>
