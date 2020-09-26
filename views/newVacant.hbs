@@ -1,0 +1,42 @@
+<main class="contenedor">
+    <form action="/vacancies/new" method="POST" class="default-form">
+        <h3>Información general</h3>
+        <div class="campo">
+            <label for="">Título</label>
+            <input type="text" name="title" placeholder="Ej: React Developer" required>
+        </div>
+        <div class="campo">
+            <label for="">Empresa</label>
+            <input type="text" name="company" placeholder="Ej: devJobs" required>
+        </div>
+        <div class="campo">
+            <label for="">Ubicación</label>
+            <input type="text" name="location" placeholder="Ej: Buenos Aires, Argentina" required>
+        </div>
+        <div class="campo">
+            <label for="">Salario (USD)</label>
+            <input type="text" name="salary" placeholder="Ej: 500" required>
+        </div>
+        <div class="campo">
+            <label for="">Contrato</label>
+            <select name="contract">
+                <option value="" disabled selected>--Seleccionar una opción--</option>
+                <option value="freelance">Freelance</option>
+                <option value="complete">Tiempo completo</option>
+                <option value="part">Medio tiempo</option>
+                <option value="project">Por proyecto</option>
+            </select>
+        </div>
+        <h3>Descripción del puesto</h3>
+        <div class="campo descripcion">
+            <label for="">Descripción del puesto</label>
+            <input type="hidden" name="description" id="x">
+            <trix-editor input="x"></trix-editor>
+        </div>
+        <div class="campo">
+            <button class="btn btn-verde" type="submit">
+                Guardar
+            </button>
+        </div>
+    </form>
+</main>
