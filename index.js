@@ -14,7 +14,8 @@ const app = express();
 app.engine('.hbs', 
     exphbs({
         defaultLayout: 'layout',
-        extname: '.hbs'
+        extname: '.hbs',
+        helpers: require('./helpers/hbs')
     })
 );
 

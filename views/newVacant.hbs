@@ -27,16 +27,13 @@
                 <option value="project">Por proyecto</option>
             </select>
         </div>
-        <h3>Descripción del puesto</h3>
-        <div class="campo descripcion">
-            <label for="">Descripción del puesto</label>
-            <input type="hidden" name="description" id="x">
-            <trix-editor input="x"></trix-editor>
-        </div>
-        <div class="campo">
-            <button class="btn btn-verde" type="submit">
-                Guardar
-            </button>
+        <h3>Conocimientos</h3>
+        <ul class="lista-conocimientos">
+            {{#selectSkills i }}
+            {{/selectSkills}}
+        </ul>
+        <div class="campo centrar-horizontal">
+            <input type="submit" value="Publicar" class="btn btn-azul">
         </div>
     </form>
 </main>
