@@ -8,8 +8,14 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 require('dotenv').config({ path: 'variables.env'});
 const MongoStore = require('connect-mongo')(session);
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
 app.engine('.hbs', 
     exphbs({

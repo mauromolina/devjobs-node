@@ -7,6 +7,7 @@ module.exports = () => {
     router.get('/', homeController.showJobs);
     router.get('/vacancies/new', vacantController.newVacantForm);
     router.post('/vacancies/new', vacantController.newVacant);
+    router.get('/vacancies/:url', vacantController.getVacant);
 
     return router;
 }

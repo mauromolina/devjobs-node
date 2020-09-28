@@ -1,4 +1,4 @@
-
+const Vacant = require('../models/Vacant');
 
 exports.newVacantForm = (req, res) => {
     res.render('newVacant', {
@@ -7,7 +7,13 @@ exports.newVacantForm = (req, res) => {
     })
 }
 
-exports.newVacant = (req, res) => {
-    console.log(req.body);
-    res.send('Ingresaste: ', title);
+exports.newVacant = async (req, res) => {
+    const vacant = new Vacant(req.body);
+    vacant.skills = req.body.skills.split(',');
+    const newVacant = await vacant.save();
+    res.redirect(`/vacancies/${newVacant.url}`);
+}
+
+exports.getVacant = (req, res) => {
+    res.send('Vacante creada!');
 }
