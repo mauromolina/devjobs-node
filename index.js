@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const db = require('./config/db');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const handlebars = require('handlebars');
+const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 const router = require('./routes');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -19,6 +21,7 @@ app.use(bodyParser.urlencoded({
 
 app.engine('.hbs', 
     exphbs({
+        handlebars: allowInsecurePrototypeAccess(handlebars),
         defaultLayout: 'layout',
         extname: '.hbs',
         helpers: require('./helpers/hbs')

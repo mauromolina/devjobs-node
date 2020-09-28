@@ -14,6 +14,14 @@ exports.newVacant = async (req, res) => {
     res.redirect(`/vacancies/${newVacant.url}`);
 }
 
-exports.getVacant = (req, res) => {
-    res.send('Vacante creada!');
+exports.getVacant = async (req, res, next) => {
+    const vacant = await Vacant.findOne({
+        url: req.params.url
+    });
+    if(!vacant) return next();
+    res.render('vacant', {
+        pageName: vacant.title,
+        bar: true,
+        vacant
+    });
 }
