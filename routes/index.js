@@ -8,7 +8,8 @@ module.exports = () => {
     router.get('/vacancies/new', vacantController.newVacantForm);
     router.post('/vacancies/new', vacantController.newVacant);
     router.get('/vacancies/:url', vacantController.getVacant);
-
+    router.get('/vacancies/edit/:url', vacantController.editVacantForm);
+    router.post('/vacancies/edit/:url', vacantController.editVacant);
     return router;
 }
 

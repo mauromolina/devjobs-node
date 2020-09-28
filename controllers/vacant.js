@@ -25,3 +25,26 @@ exports.getVacant = async (req, res, next) => {
         vacant
     });
 }
+
+exports.editVacantForm = async (req, res, next) => {
+    const vacant = await Vacant.findOne({
+        url: req.params.url
+    });
+    if(!vacant) return next();
+    res.render('editVacant', {
+        pageName: ` Editar - ${vacant.title}`,
+        vacant
+    });
+}
+
+exports.editVacant = async (req, res)  => {
+    const updatedVacant = req.body;
+    updatedVacant.skills = req.body.skills.split(',');
+    const vacant = await Vacant.findOneAndUpdate({
+        url: req.params.url
+    }, updatedVacant, {
+        new: true,
+        runValidators: true
+    });
+    res.redirect(`/vacancies/${vacant.url}`);
+}

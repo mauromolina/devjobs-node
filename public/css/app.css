@@ -78,6 +78,7 @@ h3 {
 .editar-btn {
     flex: 0 0 auto;
     text-align: center;
+    display: inline-block;  
 }
 
 /** Header **/
@@ -365,6 +366,7 @@ trix-toolbar .trix-button--icon-strike {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all .5s;
 }
 .lista-conocimientos  li.activo {
     background-color: #00C897;
