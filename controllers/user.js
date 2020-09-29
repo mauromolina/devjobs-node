@@ -23,8 +23,12 @@ exports.validateRegistration = (req, res, next) => {
     req.checkBody('confirm', 'Las contraseñas no coinciden').equals(req.body.password);
     
     const errors = req.validationErrors();
-    console.log(errors);
-    return;
+
+    if(errors){
+
+    }
+
+    next();
 }
 
 exports.createAccount = async (req, res, next) => {
