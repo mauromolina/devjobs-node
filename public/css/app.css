@@ -255,9 +255,6 @@ h3 {
     color: white;
     font-size: 1.8rem;
 }
-.enviar-datos form {
-
-}
 
 /** Iniciar Sesión **/
 .default-form {
@@ -468,6 +465,12 @@ p.candidatos {
     text-transform: uppercase;
     font-weight: 700;
     margin-top: .3rem;
+    opacity: 1;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -ms-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 .correcto {
     background-color: #00C897;
@@ -479,6 +482,9 @@ p.candidatos {
     opacity: 0;
 }
 
+.alerta .hidden {
+    background-color: #fff;
+}
 
 
 /** Biografia Vacante **/
