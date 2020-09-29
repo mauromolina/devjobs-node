@@ -10,6 +10,7 @@ exports.newVacantForm = (req, res) => {
 exports.newVacant = async (req, res) => {
     const vacant = new Vacant(req.body);
     vacant.skills = req.body.skills.split(',');
+    vacant.author = req.user._id;
     const newVacant = await vacant.save();
     res.redirect(`/vacancies/${newVacant.url}`);
 }

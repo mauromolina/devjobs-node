@@ -38,7 +38,12 @@ const vacantSchema = mongoose.Schema({
         name: String,
         email: String,
         cv: String
-    }]
+    }],
+    author: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: 'El autor es obligatorio'
+    }
 
 });
 

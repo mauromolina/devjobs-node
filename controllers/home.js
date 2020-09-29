@@ -3,7 +3,6 @@ const Vacant = require('../models/Vacant');
 exports.showJobs = async (req, res, next) => {
 
     const vacants = await Vacant.find();
-    console.log(vacants);
 
     if(!vacants) return next();
 
