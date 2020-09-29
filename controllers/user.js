@@ -54,3 +54,57 @@ exports.loginForm = (req, res) => {
         pageName: 'Iniciar sesión en devJobs'
     })
 }
+
+exports.editProfileForm = (req, res) => {
+
+    res.render('editProfile', {
+        pageName: 'Editar Perfil',
+        user: req.user,
+        logOut: true,
+        name: req.user.name
+    });
+
+}
+
+exports.validateProfile = (req, res, next) => {
+
+    req.sanitizeBody('name').escape();
+    req.sanitizeBody('email').escape();
+    if(req.body.password){
+        req.sanitizeBody('password').escape();
+    }
+    req.checkBody('name', 'El nombre es obligatorio').notEmpty();
+    req.checkBody('email', 'El email debe ser válido').isEmail();
+
+    const errors = req.validationErrors();
+
+    if(errors){
+        req.flash('error', errors.map( error => error.msg));
+        res.render('editProfile', {
+            pageName: 'Editar Perfil',
+            user: req.user,
+            logOut: true,
+            name: req.user.name,
+            msg: req.flash()
+        });
+        return;
+    }
+
+    next();
+
+}
+
+exports.editProfile = async (req, res) => {
+
+    const user = await User.findById(req.user._id);
+
+    user.name = req.body.name;
+    if(req.body.password){
+        user.password = req.body.password
+    }
+    await user.save();
+    req.flash('correcto', 'Los cambios se guardaron correctamente')
+
+    res.redirect('/admin');
+
+}

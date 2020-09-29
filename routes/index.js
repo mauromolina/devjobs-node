@@ -14,6 +14,7 @@ module.exports = () => {
         vacantController.newVacantForm);
     router.post('/vacancies/new', 
         authController.verifyUser,
+        vacantController.validateVacant,
         vacantController.newVacant);
 
     router.get('/vacancies/edit/:url', 
@@ -21,6 +22,7 @@ module.exports = () => {
         vacantController.editVacantForm);
     router.post('/vacancies/edit/:url', 
         authController.verifyUser,
+        vacantController.validateVacant,
         vacantController.editVacant);
 
     router.get('/vacancies/:url', vacantController.getVacant);
@@ -34,12 +36,21 @@ module.exports = () => {
     router.post('/login', authController.authUser);
 
     router.get('/logout', 
-    authController.verifyUser,
-    authController.logOut);
+        authController.verifyUser,
+        authController.logOut);
 
     router.get('/admin', 
         authController.verifyUser,
         authController.showAdminPanel);
+
+    router.get('/editProfile',
+        authController.verifyUser,
+        userController.editProfileForm);
+
+    router.post('/editProfile',
+        authController.verifyUser,
+        userController.validateProfile,
+        userController.editProfile);
     
     return router;
 }

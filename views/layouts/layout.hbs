@@ -22,11 +22,12 @@
                     <input type="submit" value="Buscar">
                 </form>
             </div>
-        {{else}}
+        {{/if}}
+        {{#if logOut}}
             <div class="cerrar-sesion">
-                <a href="/logout">
-                    <p>Cerrar sesión</p>
-                </a>
+                <p>Hola, {{name}}!</p>
+                <a href="/admin">Panel de administración</a>
+                <a href="/logout">Cerrar sesión</a>
             </div>
         {{/if}}
 

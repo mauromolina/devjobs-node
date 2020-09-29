@@ -4,7 +4,42 @@ exports.newVacantForm = (req, res) => {
     res.render('newVacant', {
         pageName: 'Nueva Vacante',
         tagLine: 'Completa el formulario para agregar una vacante',
+        logOut: true,
+        name: req.user.name,
     })
+}
+
+exports.validateVacant = (req, res, next) => {
+
+    req.sanitizeBody('title').escape();
+    req.sanitizeBody('company').escape();
+    req.sanitizeBody('location').escape();
+    req.sanitizeBody('salary').escape();
+    req.sanitizeBody('contract').escape();
+    req.sanitizeBody('skills').escape();
+
+    req.checkBody('title', 'El título es obligatorio').notEmpty();
+    req.checkBody('company', 'La empresa es obligatoria').notEmpty();
+    req.checkBody('location', 'La ubicación es obligatoria').notEmpty();
+    req.checkBody('contract', 'Selecciona un tipo de contrato').notEmpty();
+    req.checkBody('skills', 'Agrega como mínimo un conocimiento').notEmpty();
+
+    const errors = req.validationErrors();
+
+    if(errors){
+        req.flash('error', errors.map( error => error.msg));
+        res.render('newVacant', {
+            pageName: 'Nueva vacante',
+            tagLine: 'Completa el formulario para agregar una vacante',
+            msg: req.flash(),
+            logOut: true,
+            name: req.user.name,
+        })
+        return;
+    }
+
+    next();
+
 }
 
 exports.newVacant = async (req, res) => {
@@ -34,7 +69,9 @@ exports.editVacantForm = async (req, res, next) => {
     if(!vacant) return next();
     res.render('editVacant', {
         pageName: ` Editar - ${vacant.title}`,
-        vacant
+        vacant,
+        logOut: true,
+        name: req.user.name,
     });
 }
 
