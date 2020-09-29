@@ -13,6 +13,7 @@ const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
+const passport = require('./config/passport');
 
 const app = express();
 
@@ -47,6 +48,9 @@ app.use(session({
         mongooseConnection : mongoose.connection
     })
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 

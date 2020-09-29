@@ -2,15 +2,15 @@
     <form action="/login" method="POST" class="default-form">
         <div class="campo">
             <label for="">Email</label>
-            <input type="email" name="email" id="" placeholder="E-mail">
+            <input type="email" name="email" id="" placeholder="E-mail" required>
         </div>
         <div class="campo">
             <label for="">Contraseña</label>
-            <input type="password" name="password" id="" placeholder="Contraseña">
+            <input type="password" name="password" id="" placeholder="Contraseña" required>
         </div>
         <div class="campo acciones">
             <a href="/newAccount">¿No tenés una cuenta? Registrate</a>
-            <a href="#">Olvidé mi contraseña</a>
+            <a href="/forgotPassword">Olvidé mi contraseña</a>
         </div>
         <div class="campo">
             <input type="submit" value="Iniciar sesión" class="btn btn-azul">

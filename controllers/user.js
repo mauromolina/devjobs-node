@@ -40,7 +40,7 @@ exports.validateRegistration = (req, res, next) => {
 exports.createAccount = async (req, res, next) => {
     const user = new User(req.body);
     try {
-        await user.save();
+        const newUser = await user.save();
         res.redirect('/login');
     } catch (error) {
         req.flash('error', error);
@@ -51,6 +51,6 @@ exports.createAccount = async (req, res, next) => {
 
 exports.loginForm = (req, res) => {
     res.render('login', {
-        pageName: 'Iniciar sesión'
+        pageName: 'Iniciar sesión en devJobs'
     })
 }
