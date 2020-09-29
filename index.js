@@ -11,13 +11,17 @@ const session = require('express-session');
 require('dotenv').config({ path: 'variables.env'});
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
-}))
+}));
+
+app.use(expressValidator());
 
 app.engine('.hbs', 
     exphbs({
@@ -43,6 +47,13 @@ app.use(session({
         mongooseConnection : mongoose.connection
     })
 }));
+
+app.use(flash());
+
+app.use( (req, res, next) => {
+    res.locals.msg = req.flash();
+    next();
+})
 
 app.use('/', router());
 
