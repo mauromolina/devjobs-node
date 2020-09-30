@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
+const multer = require('multer');
+const shortid = require('shortid');
 
 exports.createAccountForm = (req, res) => {
     res.render('newAccount', {
@@ -94,6 +96,40 @@ exports.validateProfile = (req, res, next) => {
 
 }
 
+const multerConfig = {
+    storage: fileStorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, __dirname+'../../public/uploads/profiles')
+        },
+        filename: (req, file, cb) => {
+            const extension = file.mimetype.split('/')[1];
+            cb(null, `${shortid.generate()}.${extension}`);
+        } 
+    }),
+    fileFilter(req, file, cb) {
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+            cb(null, true) // valid file
+        } else {
+            cb(null, false); // invalid file
+        }
+    }, 
+    limits: { fileSize : 100000}
+}
+
+const upload = multer(multerConfig).single('image');
+
+exports.loadImage = (req, res, next) => {
+    console.log(req.files);
+    upload(req, res, function(error){
+        console.log('upload',req.files);
+        if(error instanceof multer.MulterError){
+            return next();
+        }
+    });
+    console.log('otra vez', req.files);
+    return next();
+}
+
 exports.editProfile = async (req, res) => {
 
     const user = await User.findById(req.user._id);
@@ -102,9 +138,16 @@ exports.editProfile = async (req, res) => {
     if(req.body.password){
         user.password = req.body.password
     }
+
+    console.log(req.file);
+    console.log(req.files);
+    
+
+    return res.redirect('/admin');
     await user.save();
     req.flash('correcto', 'Los cambios se guardaron correctamente')
 
-    res.redirect('/admin');
 
 }
+
+

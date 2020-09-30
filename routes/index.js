@@ -53,7 +53,7 @@ module.exports = () => {
 
     router.post('/editProfile',
         authController.verifyUser,
-        userController.validateProfile,
+        userController.loadImage,
         userController.editProfile);
     
     return router;

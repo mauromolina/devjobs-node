@@ -20,7 +20,8 @@ const userSchema = mongoose.Schema({
         trim: true
     },
     token: String,
-    expires: Date
+    expires: Date,
+    image: String
 
 });
 
