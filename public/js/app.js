@@ -1,3 +1,6 @@
+import axios from 'axios';
+import Swal from 'sweetalert2';
+
 document.addEventListener('DOMContentLoaded', () => {
     const skills = document.querySelector('.lista-conocimientos');
 
@@ -10,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(skills){
         skills.addEventListener('click', addSkills);
         selectedSkills();
+    }
+
+    const vacanciesList = document.querySelector('.panel-administracion');
+    if(vacanciesList){
+        vacanciesList.addEventListener('click', listActions);
     }
 })
 
@@ -51,4 +59,49 @@ const hideAlerts = () => {
         }
     }, 2000);
 
+}
+
+const listActions = e => {
+    e.preventDefault();
+    if(e.target.dataset.eliminar){
+        Swal.fire({
+            title: 'Eliminar vacante?',
+            text: "Una vez eliminada no se puede recuperar!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'No, cancelar'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const url = `${location.origin}/vacancies/delete/${e.target.dataset.eliminar}`;
+                axios.delete(url, {
+                    params: {url}
+                })
+                .then(function(response){
+                    if(response.status === 200){
+                        Swal.fire(
+                            'Perfecto!',
+                            response.data,
+                            'success'
+                            )
+                        e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+                    }    
+                })
+                .catch( () => {
+                    Swal.fire(
+                        'Error',
+                        'No se pudo eliminar',
+                        'error'
+                    );
+                })
+                
+            }
+          })
+    } else {
+        if(e.target.href){
+            window.location.href = e.target.href;
+        }
+    }
 }

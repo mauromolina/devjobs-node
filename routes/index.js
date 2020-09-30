@@ -25,6 +25,10 @@ module.exports = () => {
         vacantController.validateVacant,
         vacantController.editVacant);
 
+    router.delete('/vacancies/delete/:id', 
+        authController.verifyUser,
+        vacantController.deleteVacant);
+
     router.get('/vacancies/:url', vacantController.getVacant);
     
     router.get('/newAccount', userController.createAccountForm);

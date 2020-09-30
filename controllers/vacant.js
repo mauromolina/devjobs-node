@@ -86,3 +86,32 @@ exports.editVacant = async (req, res)  => {
     });
     res.redirect(`/vacancies/${vacant.url}`);
 }
+
+exports.deleteVacant = async (req, res) => {
+
+    const { id } = req.params;
+
+    const vacant = await Vacant.findById(id);
+
+    if(verifyAuthor(vacant, req.user)){
+
+        vacant.remove();
+        res.status(200).send('La vacante se eliminó correctamente');
+        
+    } else {
+
+        res.status(403).send('Error');
+
+    }
+
+
+}
+
+const verifyAuthor = (vacant = {}, user = {}) => {
+
+    if(!vacant.author.equals(user._id)){
+        return false;
+    }
+    return true;
+
+}
