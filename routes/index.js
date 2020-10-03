@@ -43,6 +43,11 @@ module.exports = () => {
         authController.verifyUser,
         authController.logOut);
 
+    router.get('/forgotPassword', 
+        authController.forgotPasswordForm);
+
+    router.post('/forgotPassword', authController.sendToken)
+
     router.get('/admin', 
         authController.verifyUser,
         authController.showAdminPanel);

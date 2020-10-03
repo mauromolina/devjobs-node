@@ -17,7 +17,6 @@ module.exports = {
     showAlerts: ( errors = {}, alerts ) => {
         const category = Object.keys(errors)
         let html = '';
-        console.log(errors);
 
         if(category.length) {
             errors[category].forEach( error => {
