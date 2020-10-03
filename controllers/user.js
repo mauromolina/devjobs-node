@@ -63,7 +63,8 @@ exports.editProfileForm = (req, res) => {
         pageName: 'Editar Perfil',
         user: req.user,
         logOut: true,
-        name: req.user.name
+        name: req.user.name,
+        img: req.user.image
     });
 
 }
@@ -87,7 +88,8 @@ exports.validateProfile = (req, res, next) => {
             user: req.user,
             logOut: true,
             name: req.user.name,
-            msg: req.flash()
+            msg: req.flash(),
+            img: req.user.image
         });
         return;
     }
@@ -97,9 +99,10 @@ exports.validateProfile = (req, res, next) => {
 }
 
 const multerConfig = {
+    limits: { fileSize : 100000},
     storage: fileStorage = multer.diskStorage({
         destination: (req, file, cb) => {
-            cb(null, __dirname+'../../public/uploads/profiles')
+            cb(null, __dirname+'../../public/upload/profiles')
         },
         filename: (req, file, cb) => {
             const extension = file.mimetype.split('/')[1];
@@ -110,24 +113,31 @@ const multerConfig = {
         if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
             cb(null, true) // valid file
         } else {
-            cb(null, false); // invalid file
+            cb(new Error('Formato de imágen no válido')); // invalid file
         }
-    }, 
-    limits: { fileSize : 100000}
+    }
 }
 
 const upload = multer(multerConfig).single('image');
 
 exports.loadImage = (req, res, next) => {
-    console.log(req.files);
     upload(req, res, function(error){
-        console.log('upload',req.files);
-        if(error instanceof multer.MulterError){
+        if(error){
+            if(error instanceof multer.MulterError){
+                if(error.code === 'LIMIT_FILE_SIZE') {
+                    req.flash('error', 'El archivo supera los 100kb');
+                } else {
+                    req.flash('error', error.message);
+                }
+            } else {
+                req.flash('error', error.message)
+            }
+            res.redirect('/admin');
+            return;
+        } else {
             return next();
         }
     });
-    console.log('otra vez', req.files);
-    return next();
 }
 
 exports.editProfile = async (req, res) => {
@@ -139,14 +149,14 @@ exports.editProfile = async (req, res) => {
         user.password = req.body.password
     }
 
-    console.log(req.file);
-    console.log(req.files);
+    if(req.file){
+        user.image = req.file.filename;
+    }
     
 
-    return res.redirect('/admin');
     await user.save();
     req.flash('correcto', 'Los cambios se guardaron correctamente')
-
+    return res.redirect('/admin');
 
 }
 

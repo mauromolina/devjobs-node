@@ -34,6 +34,7 @@ exports.showAdminPanel = async (req, res) => {
         tagLine: 'Creá y administrá tus vacantes',
         logOut: true,
         name: req.user.name,
+        img: req.user.image,
         vacants
     })
 }

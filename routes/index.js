@@ -55,6 +55,14 @@ module.exports = () => {
         authController.verifyUser,
         userController.loadImage,
         userController.editProfile);
+
+    router.post('/vacancies/:url',
+        vacantController.loadCv,
+        vacantController.contactRecruiter);
+
+    router.get('/candidates/:id',
+        authController.verifyUser,
+        vacantController.getCandidates);
     
     return router;
 }
