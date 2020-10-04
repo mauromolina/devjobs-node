@@ -55,4 +55,8 @@ vacantSchema.pre('save', function(next) {
     next();
 })
 
+vacantSchema.index( { 
+    title: 'text'
+});
+
 module.exports = mongoose.model('Vacant', vacantSchema);

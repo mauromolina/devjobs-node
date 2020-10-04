@@ -75,6 +75,9 @@ module.exports = () => {
     router.get('/candidates/:id',
         authController.verifyUser,
         vacantController.getCandidates);
+
+    router.post('/seeker', 
+        vacantController.searchVacants)
     
     return router;
 }
