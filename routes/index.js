@@ -46,7 +46,14 @@ module.exports = () => {
     router.get('/forgotPassword', 
         authController.forgotPasswordForm);
 
-    router.post('/forgotPassword', authController.sendToken)
+    router.post('/forgotPassword', 
+        authController.sendToken)
+
+    router.get('/forgotPassword/:token', 
+        authController.restorePassword)
+
+    router.post('/forgotPassword/:token',
+        authController.saveNewPassword)
 
     router.get('/admin', 
         authController.verifyUser,

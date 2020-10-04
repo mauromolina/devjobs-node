@@ -2,6 +2,7 @@ const passport = require('passport');
 const Vacant = require('../models/Vacant');
 const User = require('../models/User');
 const crypto = require('crypto')
+const sendEmail = require('../handlers/email');
 
 exports.authUser = passport.authenticate('local', {
     successRedirect: '/admin',
@@ -62,7 +63,49 @@ exports.sendToken = async (req, res) => {
     user.expires = Date.now() + 3600000;
     await user.save();
     const resetUrl = `http://${req.headers.host}/forgotPassword/${user.token}`;
+    await sendEmail.send({
+        user,
+        subject: 'Reestablecer contraseña',
+        resetUrl,
+        file: 'reset'
+    });
     req.flash('correcto', 'Se envió un correo a tu email para reestablecer tu contraseñas')
     res.redirect('/login'); 
 
+}
+
+exports.restorePassword = async (req, res) => {
+    const user = await User.findOne({
+        token: req.params.token,
+        expires:  {
+            $gt : Date.now()
+        }
+    });
+
+    if(!user){
+        req.flash('error', 'El formulario ya expiró. Intenta de nuevo');
+        res.redirect('/forgotPassword');
+    }
+    res.render('newPassword', {
+        pageName: 'Modificá tu contraseña'
+    })
+}
+
+exports.saveNewPassword = async (req, res) => {
+    const user = await User.findOne({
+        token: req.params.token,
+        expires: {
+            $gt: Date.now()
+        }
+    });
+    if(!user){
+        req.flash('error', 'El formulario ya expiró. Intenta de nuevo');
+        res.redirect('/forgotPassword');
+    }
+    user.password = req.body.password;
+    user.token = undefined;
+    user.expires = undefined;
+    user.save();
+    req.flash('correcto', 'La contraseña se modificó exitosamente');
+    res.redirect('/login');
 }
