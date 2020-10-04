@@ -14,6 +14,7 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const passport = require('./config/passport');
+const createError = require('http-errors');
 
 const app = express();
 
@@ -60,5 +61,18 @@ app.use( (req, res, next) => {
 })
 
 app.use('/', router());
+
+//error 404
+app.use( (req, res, next) => {
+    next(createError('404', 'Página no encontrada'));
+});
+
+app.use( (error, req, res, next) => {
+    res.locals.message = error.message;
+    const status = error.status || 500;
+    res.locals.status = status;
+    res.status(status);
+    res.render('error');
+})
 
 app.listen(process.env.PORT);
